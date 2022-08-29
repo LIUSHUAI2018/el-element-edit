@@ -134,6 +134,25 @@ export function remove(index: number) {
     removeList.value.push(row)
     dataForm.tableData.splice(index,1)
 }
+/**
+ * 根据下标删除数组多行
+ * @param indexs
+ */
+export function removeAll(indexs: number[]) {
+    if(indexs instanceof Array){
+        dataForm.tableData =  dataForm.tableData.filter((res,index)=> {
+            if(indexs.includes(index)){
+                res[editFlag.value] = EditFlagEnum.REMOVE
+                removeList.value.push(res)
+                return  false
+            }
+            return true
+        } )
+    }else{
+        console.error("removeAll方法只能是Number数组")
+    }
+
+}
 
 /**
  * 根据下标设置一行状态为修改

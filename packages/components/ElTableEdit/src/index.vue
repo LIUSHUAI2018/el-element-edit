@@ -3,7 +3,16 @@ import {defineComponent} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn, ElTable, ElMessage} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "./type/TableTypes";
-import {dataInit, formRef, dataForm, errorField, errorFieldValues, setTableField} from './hooks/TableDataHook'
+import {
+  dataInit,
+  formRef,
+  dataForm,
+  errorField,
+  errorFieldValues,
+  setTableField,
+  addAll,
+  add, remove, setTableRowUpdate
+} from './hooks/TableDataHook'
 import { Column, TableRow } from 'packages/types/global';
 
 export default defineComponent({
@@ -59,7 +68,7 @@ export default defineComponent({
         });
       });
     }
-    expose({validate,setTableField})
+    expose({validate,setTableField,addAll,add,remove,setTableRowUpdate})
     /**
      * 渲染组件
      */
