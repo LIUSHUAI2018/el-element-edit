@@ -1,0 +1,18 @@
+{
+  "name": "el-element-edit",
+  "version": "1.0.2",
+  "keywords": [
+    "vue3",
+    "element plus",
+	"editTable"
+  ],
+  "description": "基于element plus的扩展组件,目前有可编辑表格",
+  "main": "el-element-edit.es.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "types": "./global.d.ts",
+  "keywords": [],
+  "author": "kelizz",
+  "license": "ISC"
+}
