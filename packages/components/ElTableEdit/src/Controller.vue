@@ -6,7 +6,6 @@ import {dataForm,formRef,errorField,errorFieldValues,editFlag} from "./hooks/Tab
 import {ElMessage,ElTooltip} from "element-plus";
 import { Warning } from "@element-plus/icons-vue";
 import { FieldError } from "packages/types/global";
-import {EditFlagEnum} from "./type/TableTypes";
 
 export default defineComponent({
   name: 'Controller',
