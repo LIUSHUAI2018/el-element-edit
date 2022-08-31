@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@element-plus/icons-vue': ^2.0.9
       '@types/lodash-es': ^4.17.6
+      '@types/node': ^18.7.14
       '@vitejs/plugin-vue': ^3.0.3
       '@vueuse/components': ^9.1.1
       '@vueuse/core': ^9.1.1
@@ -22,6 +23,7 @@ importers:
       '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.1.1_vue@3.2.38
       element-plus: registry.npmmirror.com/element-plus/2.2.15_vue@3.2.38
     devDependencies:
+      '@types/node': registry.npmmirror.com/@types/node/18.7.14
       '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.0.3_vite@3.0.9+vue@3.2.38
       sass: registry.npmmirror.com/sass/1.54.7
       typescript: registry.npmmirror.com/typescript/4.8.2
@@ -232,6 +234,12 @@ packages:
     resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-12.20.24.tgz}
     name: '@types/node'
     version: 12.20.24
+    dev: true
+
+  registry.npmmirror.com/@types/node/18.7.14:
+    resolution: {integrity: sha512-6bbDaETVi8oyIARulOE9qF1/Qdi/23z6emrUh0fNJRUmjznqrixD4MpGDdgOFk5Xb0m2H6Xu42JGdvAxaJR/wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.7.14.tgz}
+    name: '@types/node'
+    version: 18.7.14
     dev: true
 
   registry.npmmirror.com/@types/web-bluetooth/0.0.15:

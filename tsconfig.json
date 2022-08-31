@@ -11,9 +11,13 @@
     "lib": ["esnext", "dom"],
     "rootDirs": ["./", "./packages/src"],
     "paths": {
-      "@/*": [
+      "/@/*": [
         "packages/src/*"
-      ]
+      ],
+      "/#/*": [
+        "packages/types/*"
+      ],
+
     },
   }
 }

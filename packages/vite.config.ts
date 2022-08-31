@@ -2,8 +2,21 @@
 import { defineConfig } from "vite";
 import dts from 'vite-plugin-dts'
 import vue from "@vitejs/plugin-vue"
+import {resolve} from "path";
 export default defineConfig(
     {
+        resolve: {
+            alias: [
+                {
+                    find: /\/@\//,
+                    replacement: pathResolve('src') + '/',
+                },
+                {
+                    find: /\/#\//,
+                    replacement: pathResolve('types') + '/',
+                }
+            ],
+        },
         build: {
             target: 'modules',
             //打包文件目录
@@ -58,3 +71,6 @@ export default defineConfig(
     }
 )
 
+function pathResolve(dir: string) {
+    return resolve(process.cwd(), '.', dir);
+}

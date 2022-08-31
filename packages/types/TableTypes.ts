@@ -56,7 +56,7 @@ export type Column =  {
     renderHeader?: Function,
     align?: 'center' | 'left ' | 'right',
     headerAlign?: 'center' | 'left ' | 'right',
-    component?: 'Input' | 'Select' | 'Switch',
+    component?: 'Input' | 'Select' | 'Switch' | 'InputNumber',
     width?: string | number,
     componentAttr?: ComponentAttr,
     itemAttr?: ItemAttr,
