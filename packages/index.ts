@@ -1,5 +1,4 @@
-import ElTableEdit from "./components/ElTableEdit/index";
-
+import ElTableEdit from "./src/ElTableEdit";
 // 组件列表
 const components = [
     ElTableEdit
