@@ -66,7 +66,7 @@ export default defineComponent({
         <ElSelect ref={selectRef} {...props.componentAttr} onChange={(val: number | string | boolean)=> onChange(val)} v-model={value.value}>
           {
             options.map((res: any) => {
-              return <ElOption key={res[structure.value]} label={res[structure.label]}
+              return <ElOption style="width: 100%" key={res[structure.value]} label={res[structure.label]}
                                value={res[structure.value] + ''}>
               </ElOption>
             })

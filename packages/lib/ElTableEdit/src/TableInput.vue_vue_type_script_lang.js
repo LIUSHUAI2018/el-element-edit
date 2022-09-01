@@ -7,17 +7,20 @@ const index = require("../../node_modules/.pnpm/registry.npmmirror.com_element-p
 const _sfc_main = vue.defineComponent({
   name: "TableInput",
   props: ConponentTypes.componentProps,
-  setup(props, { emit }) {
-    const { proxy } = vue.getCurrentInstance();
+  setup(props, {
+    emit
+  }) {
+    const {
+      proxy
+    } = vue.getCurrentInstance();
     const value = vue.ref(props.modelValue);
     const inputRef = vue.ref();
-    vue.watch(
-      () => value.value,
-      (newValue) => {
-        emit("update:modelValue", newValue);
-      },
-      { deep: true, immediate: true }
-    );
+    vue.watch(() => value.value, (newValue) => {
+      emit("update:modelValue", newValue);
+    }, {
+      deep: true,
+      immediate: true
+    });
     const getFocus = () => {
       vue.nextTick(() => {
         inputRef.value.focus();
@@ -31,19 +34,24 @@ const _sfc_main = vue.defineComponent({
       }
     };
     return () => {
-      return /* @__PURE__ */ React.createElement(Controller_vue_vue_type_script_lang, {
-        onGetFocus: getFocus,
-        cellHeight: props.cellHeight,
-        "v-model": value.value,
-        updateOperate: props.updateOperate,
-        column: props.column,
-        row: props.row
-      }, /* @__PURE__ */ React.createElement(index.ElInput, {
-        ref: inputRef,
-        ...props.componentAttr,
-        onChange: (val) => onChange(val),
-        "v-model": value.value
-      }));
+      return vue.createVNode(Controller_vue_vue_type_script_lang, {
+        "onGetFocus": getFocus,
+        "cellHeight": props.cellHeight,
+        "modelValue": value.value,
+        "onUpdate:modelValue": ($event) => value.value = $event,
+        "updateOperate": props.updateOperate,
+        "column": props.column,
+        "row": props.row
+      }, {
+        default: () => [vue.createVNode(index.ElInput, vue.mergeProps({
+          "style": "width: 100%",
+          "ref": inputRef
+        }, props.componentAttr, {
+          "onChange": (val) => onChange(val),
+          "modelValue": value.value,
+          "onUpdate:modelValue": ($event) => value.value = $event
+        }), null)]
+      });
     };
   }
 });

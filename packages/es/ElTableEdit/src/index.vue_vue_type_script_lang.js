@@ -1,4 +1,4 @@
-import { defineComponent } from "vue";
+import { defineComponent, createVNode, mergeProps } from "vue";
 import componentMap from "./ComponentMap.js";
 import { tableProps } from "../../packages/types/TableTypes.js";
 import { setTableField, addAll, add, remove, setTableRowUpdate, formRef, errorField, errorFieldValues, dataInit, dataForm } from "./hooks/TableDataHook.js";
@@ -8,26 +8,31 @@ import { ElTable, ElTableColumn } from "../../node_modules/.pnpm/registry.npmmir
 const _sfc_main = defineComponent({
   name: "ElTableEdit",
   props: tableProps,
-  setup(props, { expose, emit, slots }) {
+  setup(props, {
+    expose,
+    emit,
+    slots
+  }) {
     const getComponent = (scope, item) => {
-      componentMap.get(item.component);
-      return /* @__PURE__ */ React.createElement("dynamicComponents", {
-        cellHeight: props.cellHeight,
-        updateOperate: props.updateOperate,
-        column: item,
-        componentAttr: item.componentAttr ? item.componentAttr : {},
-        row: scope,
-        "v-model": dataForm.tableData[scope.$index][item.prop]
-      });
+      let dynamicComponents = componentMap.get(item.component);
+      return createVNode(dynamicComponents, {
+        "cellHeight": props.cellHeight,
+        "updateOperate": props.updateOperate,
+        "column": item,
+        "componentAttr": item.componentAttr ? item.componentAttr : {},
+        "row": scope,
+        "modelValue": dataForm.tableData[scope.$index][item.prop],
+        "onUpdate:modelValue": ($event) => dataForm.tableData[scope.$index][item.prop] = $event
+      }, null);
     };
     const formItem = (scope, item) => {
       let prop = `tableData.${scope.$index}.${scope.column.property}`;
-      return /* @__PURE__ */ React.createElement(ElFormItem, {
-        label: "",
-        ...item.itemAttr,
-        prop,
-        rules: item.rules
-      }, {
+      return createVNode(ElFormItem, mergeProps({
+        "label": ""
+      }, item.itemAttr, {
+        "prop": prop,
+        "rules": item.rules
+      }), {
         default: () => {
           return getComponent(scope, item);
         }
@@ -53,43 +58,55 @@ const _sfc_main = defineComponent({
         });
       });
     };
-    expose({ validate, setTableField, addAll, add, remove, setTableRowUpdate });
+    expose({
+      validate,
+      setTableField,
+      addAll,
+      add,
+      remove,
+      setTableRowUpdate
+    });
     const render = () => {
-      var _a;
       dataInit(props, emit);
-      return /* @__PURE__ */ React.createElement(ElForm, {
-        class: "el-edit-table",
-        ref: formRef,
-        showMessage: false,
-        model: dataForm
-      }, /* @__PURE__ */ React.createElement(ElTable, {
-        ...props.tableAttr,
-        data: dataForm.tableData
-      }, (_a = props.columns) == null ? void 0 : _a.map((item) => {
-        let items = {
-          type: item.type,
-          index: item.index,
-          columnKey: item.columnKey,
-          minWidth: item.minWidth,
-          fixed: item.fixed,
-          renderHeader: item.renderHeader,
-          align: item.align,
-          headerAlign: item.renderHeader
-        };
-        return /* @__PURE__ */ React.createElement(ElTableColumn, {
-          ...items,
-          prop: item.prop,
-          label: item.label
-        }, {
-          default: (scope) => {
-            var _a2;
-            if (item.custom) {
-              return (_a2 = slots[item.custom]) == null ? void 0 : _a2.call(slots, scope, item);
-            }
-            return formItem(scope, item);
+      return createVNode(ElForm, {
+        "class": "el-edit-table",
+        "ref": formRef,
+        "showMessage": false,
+        "model": dataForm
+      }, {
+        default: () => [createVNode(ElTable, mergeProps(props.tableAttr, {
+          "data": dataForm.tableData
+        }), {
+          default: () => {
+            var _a;
+            return [(_a = props.columns) == null ? void 0 : _a.map((item) => {
+              let items = {
+                type: item.type,
+                index: item.index,
+                columnKey: item.columnKey,
+                minWidth: item.minWidth,
+                fixed: item.fixed,
+                renderHeader: item.renderHeader,
+                align: item.align,
+                width: item.width,
+                headerAlign: item.renderHeader
+              };
+              return createVNode(ElTableColumn, mergeProps(items, {
+                "prop": item.prop,
+                "label": item.label
+              }), {
+                default: (scope) => {
+                  var _a2;
+                  if (item.custom) {
+                    return (_a2 = slots[item.custom]) == null ? void 0 : _a2.call(slots, scope, item);
+                  }
+                  return formItem(scope, item);
+                }
+              });
+            })];
           }
-        });
-      })));
+        })]
+      });
     };
     return render;
   }

@@ -1,23 +1,29 @@
-import { defineComponent, getCurrentInstance, ref, watch, nextTick } from "vue";
+import { defineComponent, getCurrentInstance, ref, watch, createVNode, mergeProps, isVNode, nextTick } from "vue";
 import _sfc_main$1 from "./Controller.vue_vue_type_script_lang.js";
 import { componentProps } from "./type/ConponentTypes.js";
 import { setTableRowUpdate, dataForm } from "./hooks/TableDataHook.js";
 import { ElSelect, ElOption } from "../../node_modules/.pnpm/registry.npmmirror.com_element-plus@2.2.15_vue@3.2.38/node_modules/element-plus/es/components/select/index.js";
+function _isSlot(s) {
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
+}
 const _sfc_main = defineComponent({
   name: "TableSelect",
   props: componentProps,
-  setup(props, { emit }) {
-    const { proxy } = getCurrentInstance();
+  setup(props, {
+    emit
+  }) {
+    const {
+      proxy
+    } = getCurrentInstance();
     const label = ref("");
     const value = ref(props.modelValue);
     const selectRef = ref();
-    watch(
-      () => value.value,
-      (newValue) => {
-        emit("update:modelValue", newValue);
-      },
-      { deep: true, immediate: true }
-    );
+    watch(() => value.value, (newValue) => {
+      emit("update:modelValue", newValue);
+    }, {
+      deep: true,
+      immediate: true
+    });
     const getFocus = () => {
       nextTick(() => {
         selectRef.value.$el.click();
@@ -32,6 +38,7 @@ const _sfc_main = defineComponent({
     };
     return () => {
       var _a, _b;
+      let _slot;
       let structure = {
         label: "label",
         value: "value"
@@ -42,30 +49,37 @@ const _sfc_main = defineComponent({
       let options = (_a = props.componentAttr) == null ? void 0 : _a.options.value;
       if (!options) {
         console.warn(`${(_b = props.column) == null ? void 0 : _b.label}'options'\u4E0D\u80FD\u4E3A\u7A7A`);
-        return /* @__PURE__ */ React.createElement("div", null);
+        return createVNode("div", null, null);
       }
       if (value.value) {
         let obj = options.find((res) => res[structure.value] == value.value);
         label.value = obj ? obj[structure.label] : "";
       }
-      return /* @__PURE__ */ React.createElement(_sfc_main$1, {
-        onGetFocus: getFocus,
-        "v-model": label.value,
-        updateOperate: props.updateOperate,
-        column: props.column,
-        row: props.row
-      }, /* @__PURE__ */ React.createElement(ElSelect, {
-        ref: selectRef,
-        ...props.componentAttr,
-        onChange: (val) => onChange(val),
-        "v-model": value.value
-      }, options.map((res) => {
-        return /* @__PURE__ */ React.createElement(ElOption, {
-          key: res[structure.value],
-          label: res[structure.label],
-          value: res[structure.value] + ""
-        });
-      })));
+      return createVNode(_sfc_main$1, {
+        "onGetFocus": getFocus,
+        "modelValue": label.value,
+        "onUpdate:modelValue": ($event) => label.value = $event,
+        "updateOperate": props.updateOperate,
+        "column": props.column,
+        "row": props.row
+      }, {
+        default: () => [createVNode(ElSelect, mergeProps({
+          "ref": selectRef
+        }, props.componentAttr, {
+          "onChange": (val) => onChange(val),
+          "modelValue": value.value,
+          "onUpdate:modelValue": ($event) => value.value = $event
+        }), _isSlot(_slot = options.map((res) => {
+          return createVNode(ElOption, {
+            "style": "width: 100%",
+            "key": res[structure.value],
+            "label": res[structure.label],
+            "value": res[structure.value] + ""
+          }, null);
+        })) ? _slot : {
+          default: () => [_slot]
+        })]
+      });
     };
   }
 });

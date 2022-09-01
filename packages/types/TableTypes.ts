@@ -56,7 +56,7 @@ export type Column =  {
     renderHeader?: Function,
     align?: 'center' | 'left ' | 'right',
     headerAlign?: 'center' | 'left ' | 'right',
-    component?: 'Input' | 'Select' | 'Switch' | 'InputNumber',
+    component?: 'Input' | 'Select' | 'Switch' | 'InputNumber' | "Date",
     width?: string | number,
     componentAttr?: ComponentAttr,
     itemAttr?: ItemAttr,
@@ -76,7 +76,9 @@ export interface ComponentAttr  {
     options: any,
     disabled?: boolean,
     activeValue?: string | number,
-    inactiveValue?: string | number
+    inactiveValue?: string | number,
+    valueFormat?: string,
+    type?: any
 }
 export interface ItemAttr  {}
 export interface TableRow {

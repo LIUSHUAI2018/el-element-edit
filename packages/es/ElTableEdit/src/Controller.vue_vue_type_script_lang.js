@@ -1,4 +1,4 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, createVNode, resolveComponent } from "vue";
 import { OnClickOutside } from "../../node_modules/.pnpm/registry.npmmirror.com_@vueuse_components@9.1.1_vue@3.2.38/node_modules/@vueuse/components/index.js";
 import { controllerProps } from "./type/ControllerTypes.js";
 import { dataForm, errorField, errorFieldValues, formRef } from "./hooks/TableDataHook.js";
@@ -9,7 +9,10 @@ const _sfc_main = defineComponent({
   name: "Controller",
   props: controllerProps,
   emits: ["getFocus"],
-  setup(props, { slots, emit }) {
+  setup(props, {
+    slots,
+    emit
+  }) {
     var _a, _b, _c;
     const updateOperate = ref(dataForm.tableData[props.row.$index][props.updateOperate]);
     const property = (_a = props.row) == null ? void 0 : _a.column.property;
@@ -49,33 +52,41 @@ const _sfc_main = defineComponent({
             error = find.message;
           }
         }
-        return /* @__PURE__ */ React.createElement(ElTooltip, {
-          content: error
-        }, /* @__PURE__ */ React.createElement("div", {
-          class: "edit-table-column-verify"
-        }, /* @__PURE__ */ React.createElement("el-icon", {
-          color: "#FF0000"
-        }, /* @__PURE__ */ React.createElement(warning_default, null))));
+        return createVNode(ElTooltip, {
+          "content": error
+        }, {
+          default: () => [createVNode("div", {
+            "class": "edit-table-column-verify"
+          }, [createVNode(resolveComponent("el-icon"), {
+            "color": "#FF0000"
+          }, {
+            default: () => [createVNode(warning_default, null, null)]
+          })])]
+        });
       }
-      return /* @__PURE__ */ React.createElement("div", null);
+      return createVNode("div", null, null);
     };
     const attr = {
       onTrigger: (el) => cancel(el)
     };
     const render = () => {
-      var _a2;
       if (updateOperate.value.includes(property)) {
-        return /* @__PURE__ */ React.createElement(OnClickOutside, {
-          ...attr
-        }, (_a2 = slots.default) == null ? void 0 : _a2.call(slots));
+        return createVNode(OnClickOutside, attr, {
+          default: () => {
+            var _a2;
+            return [(_a2 = slots.default) == null ? void 0 : _a2.call(slots)];
+          }
+        });
       }
-      return /* @__PURE__ */ React.createElement("div", {
-        class: "edit-table-column",
-        onClick: () => editField()
-      }, /* @__PURE__ */ React.createElement("div", {
-        class: "edit-table-column-value",
-        style: { height: props.cellHeight }
-      }, /* @__PURE__ */ React.createElement("span", null, props.modelValue)), verifyIcon());
+      return createVNode("div", {
+        "class": "edit-table-column",
+        "onClick": () => editField()
+      }, [createVNode("div", {
+        "class": "edit-table-column-value",
+        "style": {
+          height: props.cellHeight
+        }
+      }, [createVNode("span", null, [props.modelValue])]), verifyIcon()]);
     };
     return render;
   }

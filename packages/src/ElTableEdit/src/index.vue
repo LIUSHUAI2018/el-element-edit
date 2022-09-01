@@ -87,6 +87,7 @@ export default defineComponent({
               fixed: item.fixed,
               renderHeader: item.renderHeader,
               align: item.align,
+              width: item.width,
               headerAlign: item.renderHeader
             } as any
             return <ElTableColumn {...items}  prop={item.prop} label={item.label}>

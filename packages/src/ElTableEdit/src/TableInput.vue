@@ -42,7 +42,7 @@ export default defineComponent({
     return () => {
       return <Controller onGetFocus={getFocus} cellHeight={props.cellHeight} v-model={value.value} updateOperate={props.updateOperate}
                          column={props.column} row={props.row}>
-        <ElInput ref={inputRef} {...props.componentAttr} onChange={(val: number | string )=> onChange(val)} v-model={value.value}></ElInput>
+        <ElInput style="width: 100%" ref={inputRef} {...props.componentAttr} onChange={(val: number | string )=> onChange(val)} v-model={value.value}></ElInput>
       </Controller>
     }
   }
