@@ -39,8 +39,7 @@ export default defineComponent({
         //如果没有设置默认值则默认开启
         value.value =  props.componentAttr!.activeValue
       }
-
-      return  <ElSwitch {...props.componentAttr} onChange={(val: number | string | boolean)=> onChange(val)} v-model={value.value}></ElSwitch>
+      return  <ElSwitch  {...props.componentAttr} onChange={(val: number | string | boolean)=> onChange(val)} v-model={value.value}></ElSwitch>
     }
   }
 })

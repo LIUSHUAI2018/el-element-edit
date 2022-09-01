@@ -9,26 +9,31 @@ const index$2 = require("../../node_modules/.pnpm/registry.npmmirror.com_element
 const _sfc_main = vue.defineComponent({
   name: "ElTableEdit",
   props: TableTypes.tableProps,
-  setup(props, { expose, emit, slots }) {
+  setup(props, {
+    expose,
+    emit,
+    slots
+  }) {
     const getComponent = (scope, item) => {
-      ComponentMap.get(item.component);
-      return /* @__PURE__ */ React.createElement("dynamicComponents", {
-        cellHeight: props.cellHeight,
-        updateOperate: props.updateOperate,
-        column: item,
-        componentAttr: item.componentAttr ? item.componentAttr : {},
-        row: scope,
-        "v-model": TableDataHook.dataForm.tableData[scope.$index][item.prop]
-      });
+      let dynamicComponents = ComponentMap.get(item.component);
+      return vue.createVNode(dynamicComponents, {
+        "cellHeight": props.cellHeight,
+        "updateOperate": props.updateOperate,
+        "column": item,
+        "componentAttr": item.componentAttr ? item.componentAttr : {},
+        "row": scope,
+        "modelValue": TableDataHook.dataForm.tableData[scope.$index][item.prop],
+        "onUpdate:modelValue": ($event) => TableDataHook.dataForm.tableData[scope.$index][item.prop] = $event
+      }, null);
     };
     const formItem = (scope, item) => {
       let prop = `tableData.${scope.$index}.${scope.column.property}`;
-      return /* @__PURE__ */ React.createElement(index$1.ElFormItem, {
-        label: "",
-        ...item.itemAttr,
-        prop,
-        rules: item.rules
-      }, {
+      return vue.createVNode(index$1.ElFormItem, vue.mergeProps({
+        "label": ""
+      }, item.itemAttr, {
+        "prop": prop,
+        "rules": item.rules
+      }), {
         default: () => {
           return getComponent(scope, item);
         }
@@ -54,43 +59,55 @@ const _sfc_main = vue.defineComponent({
         });
       });
     };
-    expose({ validate, setTableField: TableDataHook.setTableField, addAll: TableDataHook.addAll, add: TableDataHook.add, remove: TableDataHook.remove, setTableRowUpdate: TableDataHook.setTableRowUpdate });
+    expose({
+      validate,
+      setTableField: TableDataHook.setTableField,
+      addAll: TableDataHook.addAll,
+      add: TableDataHook.add,
+      remove: TableDataHook.remove,
+      setTableRowUpdate: TableDataHook.setTableRowUpdate
+    });
     const render = () => {
-      var _a;
       TableDataHook.dataInit(props, emit);
-      return /* @__PURE__ */ React.createElement(index$1.ElForm, {
-        class: "el-edit-table",
-        ref: TableDataHook.formRef,
-        showMessage: false,
-        model: TableDataHook.dataForm
-      }, /* @__PURE__ */ React.createElement(index$2.ElTable, {
-        ...props.tableAttr,
-        data: TableDataHook.dataForm.tableData
-      }, (_a = props.columns) == null ? void 0 : _a.map((item) => {
-        let items = {
-          type: item.type,
-          index: item.index,
-          columnKey: item.columnKey,
-          minWidth: item.minWidth,
-          fixed: item.fixed,
-          renderHeader: item.renderHeader,
-          align: item.align,
-          headerAlign: item.renderHeader
-        };
-        return /* @__PURE__ */ React.createElement(index$2.ElTableColumn, {
-          ...items,
-          prop: item.prop,
-          label: item.label
-        }, {
-          default: (scope) => {
-            var _a2;
-            if (item.custom) {
-              return (_a2 = slots[item.custom]) == null ? void 0 : _a2.call(slots, scope, item);
-            }
-            return formItem(scope, item);
+      return vue.createVNode(index$1.ElForm, {
+        "class": "el-edit-table",
+        "ref": TableDataHook.formRef,
+        "showMessage": false,
+        "model": TableDataHook.dataForm
+      }, {
+        default: () => [vue.createVNode(index$2.ElTable, vue.mergeProps(props.tableAttr, {
+          "data": TableDataHook.dataForm.tableData
+        }), {
+          default: () => {
+            var _a;
+            return [(_a = props.columns) == null ? void 0 : _a.map((item) => {
+              let items = {
+                type: item.type,
+                index: item.index,
+                columnKey: item.columnKey,
+                minWidth: item.minWidth,
+                fixed: item.fixed,
+                renderHeader: item.renderHeader,
+                align: item.align,
+                width: item.width,
+                headerAlign: item.renderHeader
+              };
+              return vue.createVNode(index$2.ElTableColumn, vue.mergeProps(items, {
+                "prop": item.prop,
+                "label": item.label
+              }), {
+                default: (scope) => {
+                  var _a2;
+                  if (item.custom) {
+                    return (_a2 = slots[item.custom]) == null ? void 0 : _a2.call(slots, scope, item);
+                  }
+                  return formItem(scope, item);
+                }
+              });
+            })];
           }
-        });
-      })));
+        })]
+      });
     };
     return render;
   }

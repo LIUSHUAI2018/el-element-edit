@@ -10,7 +10,10 @@ const _sfc_main = vue.defineComponent({
   name: "Controller",
   props: ControllerTypes.controllerProps,
   emits: ["getFocus"],
-  setup(props, { slots, emit }) {
+  setup(props, {
+    slots,
+    emit
+  }) {
     var _a, _b, _c;
     const updateOperate = vue.ref(TableDataHook.dataForm.tableData[props.row.$index][props.updateOperate]);
     const property = (_a = props.row) == null ? void 0 : _a.column.property;
@@ -50,33 +53,41 @@ const _sfc_main = vue.defineComponent({
             error = find.message;
           }
         }
-        return /* @__PURE__ */ React.createElement(index$1.ElTooltip, {
-          content: error
-        }, /* @__PURE__ */ React.createElement("div", {
-          class: "edit-table-column-verify"
-        }, /* @__PURE__ */ React.createElement("el-icon", {
-          color: "#FF0000"
-        }, /* @__PURE__ */ React.createElement(index$2.Warning, null))));
+        return vue.createVNode(index$1.ElTooltip, {
+          "content": error
+        }, {
+          default: () => [vue.createVNode("div", {
+            "class": "edit-table-column-verify"
+          }, [vue.createVNode(vue.resolveComponent("el-icon"), {
+            "color": "#FF0000"
+          }, {
+            default: () => [vue.createVNode(index$2.Warning, null, null)]
+          })])]
+        });
       }
-      return /* @__PURE__ */ React.createElement("div", null);
+      return vue.createVNode("div", null, null);
     };
     const attr = {
       onTrigger: (el) => cancel(el)
     };
     const render = () => {
-      var _a2;
       if (updateOperate.value.includes(property)) {
-        return /* @__PURE__ */ React.createElement(index.OnClickOutside, {
-          ...attr
-        }, (_a2 = slots.default) == null ? void 0 : _a2.call(slots));
+        return vue.createVNode(index.OnClickOutside, attr, {
+          default: () => {
+            var _a2;
+            return [(_a2 = slots.default) == null ? void 0 : _a2.call(slots)];
+          }
+        });
       }
-      return /* @__PURE__ */ React.createElement("div", {
-        class: "edit-table-column",
-        onClick: () => editField()
-      }, /* @__PURE__ */ React.createElement("div", {
-        class: "edit-table-column-value",
-        style: { height: props.cellHeight }
-      }, /* @__PURE__ */ React.createElement("span", null, props.modelValue)), verifyIcon());
+      return vue.createVNode("div", {
+        "class": "edit-table-column",
+        "onClick": () => editField()
+      }, [vue.createVNode("div", {
+        "class": "edit-table-column-value",
+        "style": {
+          height: props.cellHeight
+        }
+      }, [vue.createVNode("span", null, [props.modelValue])]), verifyIcon()]);
     };
     return render;
   }

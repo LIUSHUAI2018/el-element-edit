@@ -6,16 +6,19 @@ const index = require("../../node_modules/.pnpm/registry.npmmirror.com_element-p
 const _sfc_main = vue.defineComponent({
   name: "TableSwitch",
   props: ConponentTypes.componentProps,
-  setup(props, { emit }) {
+  setup(props, {
+    emit
+  }) {
     const value = vue.ref(props.modelValue);
-    const { proxy } = vue.getCurrentInstance();
-    vue.watch(
-      () => value.value,
-      (newValue) => {
-        emit("update:modelValue", newValue);
-      },
-      { deep: true, immediate: true }
-    );
+    const {
+      proxy
+    } = vue.getCurrentInstance();
+    vue.watch(() => value.value, (newValue) => {
+      emit("update:modelValue", newValue);
+    }, {
+      deep: true,
+      immediate: true
+    });
     const onChange = (val) => {
       var _a, _b, _c, _d, _e;
       TableDataHook.setTableRowUpdate((_a = props.row) == null ? void 0 : _a.$index);
@@ -24,20 +27,11 @@ const _sfc_main = vue.defineComponent({
       }
     };
     return () => {
-      if (!props.componentAttr.activeValue) {
-        props.componentAttr.activeValue = 1;
-      }
-      if (!props.componentAttr.inactiveValue) {
-        props.componentAttr.inactiveValue = 2;
-      }
-      if (!value.value) {
-        value.value = props.componentAttr.activeValue;
-      }
-      return /* @__PURE__ */ React.createElement(index.ElSwitch, {
-        ...props.componentAttr,
-        onChange: (val) => onChange(val),
-        "v-model": value.value
-      });
+      return vue.createVNode(index.ElSwitch, vue.mergeProps(props.componentAttr, {
+        "onChange": (val) => onChange(val),
+        "modelValue": value.value,
+        "onUpdate:modelValue": ($event) => value.value = $event
+      }), null);
     };
   }
 });

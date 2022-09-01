@@ -38,9 +38,12 @@ function dataInit(props, emit) {
   watch(
     () => dataForm.tableData,
     (newValue) => {
+      console.log(newValue[0].birthday, "\u751F\u65E5");
+      console.log(newValue, "\u5177\u4F53\u5BF9\u8C61");
       if (isEqual(newValue, props.modelValue)) {
         return;
       }
+      console.log(newValue, "\u8FDB\u5165");
       emit("update:modelValue", newValue);
     },
     {
