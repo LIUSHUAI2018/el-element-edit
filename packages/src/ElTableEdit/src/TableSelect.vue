@@ -1,16 +1,17 @@
 <script lang="tsx">
-import {ElSelect, ElOption} from "element-plus";
-import {defineComponent, getCurrentInstance, nextTick, ref, watch} from "vue";
+import ElComponents from "../../../types/install";
+import {defineComponent, getCurrentInstance, inject, nextTick, ref, watch} from "vue";
 import Controller from "./Controller.vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
-import {dataForm, editFlag, setTableRowUpdate} from "./hooks/TableDataHook";
-import {EditFlagEnum} from "../../../types/TableTypes";
+import useTableHooks from "./hooks/TableDataHook";
 
 export default defineComponent({
   name: 'TableSelect',
   props: componentProps,
   setup(props: ComponentProps, {emit}) {
+    const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const { proxy }  = getCurrentInstance() as any;
+
     //显示字段名
     const label = ref('')
     //显示字段值
@@ -45,6 +46,8 @@ export default defineComponent({
       }
     }
     return () => {
+      const ElSelect = ElComponents.get("ElSelect")
+      const ElOption = ElComponents.get("ElOption")
       let structure = {
         label: 'label',
         value: 'value'
@@ -79,6 +82,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss">
 
 </style>

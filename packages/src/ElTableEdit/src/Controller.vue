@@ -1,11 +1,11 @@
 <script lang="tsx">
-import {defineComponent, ref,toRef} from "vue";
+import {defineComponent, inject, ref, toRef} from "vue";
 import {OnClickOutside} from "@vueuse/components"
 import {ControllerProps, controllerProps} from "./type/ControllerTypes";
-import {dataForm,formRef,errorField,errorFieldValues,editFlag} from "./hooks/TableDataHook";
 import {ElMessage,ElTooltip} from "element-plus";
 import { Warning } from "@element-plus/icons-vue";
 import {FieldError} from "../../../types/TableTypes";
+
 
 
 export default defineComponent({
@@ -13,8 +13,9 @@ export default defineComponent({
   props: controllerProps,
   emits: ['getFocus'],
   setup(props: ControllerProps, {slots,emit}) {
-    const updateOperate = ref(dataForm.tableData[props.row.$index][props.updateOperate!])
+    const {dataForm,formRef,errorField,errorFieldValues} = inject('tableVariable') as any
     const property = props.row?.column.property
+    const updateOperate = ref<string[]>([])
     const clickClass = ["el-popper is-pure is-light el-picker__popper", "el-tree table-select-tree","el-scrollbar__view el-select-dropdown__list"];
     const prop = `tableData.${props.row?.$index}.${props.row?.column.property}`
     /**
@@ -78,6 +79,9 @@ export default defineComponent({
       onTrigger: (el: any) => cancel(el)
     }
     const render = () => {
+      if(dataForm.tableData && dataForm.tableData.length > props.row.$index+1){
+        updateOperate.value = dataForm.tableData[props.row.$index][props.updateOperate!]
+      }
       if (updateOperate.value.includes(property)) {
         return <OnClickOutside {...attr}>
           {slots.default?.()}

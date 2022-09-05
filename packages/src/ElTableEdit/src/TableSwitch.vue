@@ -1,12 +1,14 @@
 <script lang="tsx">
 import {ElSwitch} from "element-plus";
-import {defineComponent,getCurrentInstance, ref, watch} from "vue";
+import {defineComponent, getCurrentInstance, inject, ref, watch} from "vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
-import {dataForm,  setTableRowUpdate} from "./hooks/TableDataHook";
+import useTableHooks from "/@/ElTableEdit/src/hooks/TableDataHook";
+
 export default defineComponent({
   name: 'TableSwitch',
   props: componentProps,
   setup(props: ComponentProps, {emit}) {
+    const {dataForm,  setTableRowUpdate} = inject('tableVariable') as any
     const value = ref(props.modelValue)
     const { proxy }  = getCurrentInstance() as any;
     watch(
@@ -39,7 +41,9 @@ export default defineComponent({
         //如果没有设置默认值则默认开启
         value.value =  props.componentAttr!.activeValue
       }
-      return  <ElSwitch  {...props.componentAttr} onChange={(val: number | string | boolean)=> onChange(val)} v-model={value.value}></ElSwitch>
+      return <div>
+        <ElSwitch  {...props.componentAttr} onChange={(val: number | string | boolean)=> onChange(val)} v-model={value.value}></ElSwitch>
+      </div>
     }
   }
 })
