@@ -4,14 +4,14 @@ import {ElForm, ElFormItem, ElTableColumn, ElTable, ElMessage} from "element-plu
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
 import useTableHooks from './hooks/TableDataHook'
-import { Column, TableRow } from "../../../types/TableTypes";
+import {Column, TableRow} from "../../../types/TableTypes";
 
 export default defineComponent({
   name: "ElTableEdit",
   props: tableProps,
-  setup(props: TableProps, {expose, emit,slots}) {
-     const  tableVariable = useTableHooks()
-     provide('tableVariable',tableVariable)
+  setup(props: TableProps, {expose, emit, slots}) {
+    const tableVariable = useTableHooks()
+    provide('tableVariable', tableVariable)
     /**
      * 动态获取组件
      * @param scope
@@ -60,7 +60,14 @@ export default defineComponent({
         });
       });
     }
-    expose({validate,setTableField: tableVariable.setTableField,addAll: tableVariable.addAll,add: tableVariable.add,remove: tableVariable.remove,setTableRowUpdate:tableVariable.setTableRowUpdate})
+    expose({
+      validate,
+      setTableField: tableVariable.setTableField,
+      addAll: tableVariable.addAll,
+      add: tableVariable.add,
+      remove: tableVariable.remove,
+      setTableRowUpdate: tableVariable.setTableRowUpdate
+    })
     /**
      * 渲染组件
      */
@@ -68,39 +75,40 @@ export default defineComponent({
 
       //数据初始化
       tableVariable.dataInit(props, emit)
-      return (<ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
-        <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
-          {props.columns?.map((item: Column) => {
-            let items = {
-              type: item.type,
-              index: item.index,
-              columnKey: item.columnKey,
-              minWidth: item.minWidth,
-              fixed: item.fixed,
-              renderHeader: item.renderHeader,
-              align: item.align,
-              width: item.width,
-              headerAlign: item.renderHeader
-            } as any
-            return <ElTableColumn {...items}  prop={item.prop} label={item.label}>
-              {{
-                default: (scope: TableRow) => {
-                  if(item.custom){
-                    return slots[item.custom]?.(scope,item)
-                  }
-                  return formItem(scope, item)
-                }
-              }}
-            </ElTableColumn>
-          })}
-        </ElTable>
-      </ElForm>)
+      return (
+          <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
+            <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
+              {props.columns?.map((item: Column) => {
+                let items = {
+                  type: item.type,
+                  index: item.index,
+                  columnKey: item.columnKey,
+                  minWidth: item.minWidth,
+                  fixed: item.fixed,
+                  renderHeader: item.renderHeader,
+                  align: item.align,
+                  width: item.width,
+                  headerAlign: item.renderHeader
+                } as any
+                return <ElTableColumn {...items} prop={item.prop} label={item.label}>
+                  {{
+                    default: (scope: TableRow) => {
+                      if (item.custom) {
+                        return slots[item.custom]?.(scope, item)
+                      }
+                      return formItem(scope, item)
+                    }
+                  }}
+                </ElTableColumn>
+              })}
+            </ElTable>
+          </ElForm>)
     }
     return render
   }
 })
 </script>
 
-<style  lang="scss">
+<style lang="scss">
 @import "../style/table";
 </style>

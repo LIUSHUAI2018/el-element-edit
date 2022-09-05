@@ -2,21 +2,21 @@
 import {defineComponent, inject, ref, toRef} from "vue";
 import {OnClickOutside} from "@vueuse/components"
 import {ControllerProps, controllerProps} from "./type/ControllerTypes";
-import {ElMessage,ElTooltip} from "element-plus";
-import { Warning } from "@element-plus/icons-vue";
-import {FieldError} from "../../../types/TableTypes";
 
+import {Warning} from "@element-plus/icons-vue";
+import {FieldError} from "../../../types/TableTypes";
+import ElComponents from "/#/install";
 
 
 export default defineComponent({
   name: 'Controller',
   props: controllerProps,
   emits: ['getFocus'],
-  setup(props: ControllerProps, {slots,emit}) {
-    const {dataForm,formRef,errorField,errorFieldValues} = inject('tableVariable') as any
+  setup(props: ControllerProps, {slots, emit}) {
+    const {dataForm, formRef, errorField, errorFieldValues} = inject('tableVariable') as any
     const property = props.row?.column.property
     const updateOperate = ref<string[]>([])
-    const clickClass = ["el-popper is-pure is-light el-picker__popper", "el-tree table-select-tree","el-scrollbar__view el-select-dropdown__list"];
+    const clickClass = ["el-popper is-pure is-light el-picker__popper", "el-tree table-select-tree", "el-scrollbar__view el-select-dropdown__list"];
     const prop = `tableData.${props.row?.$index}.${props.row?.column.property}`
     /**
      * 取消编辑状态
@@ -31,15 +31,13 @@ export default defineComponent({
         }
       }
       //let prop = `tableData.${props.row?.$index}.${props.row?.column.property}`
-      formRef.value.validateField(prop,(isValid: boolean, invalidFields?: any)=>{
-        if(isValid){
+      formRef.value.validateField(prop, (isValid: boolean, invalidFields?: any) => {
+        if (isValid) {
           let index = updateOperate.value.findIndex((res: string) => res === property)
-          updateOperate.value.splice(index,1)
-        }else{
-          ElMessage({
-            message: invalidFields[prop][0].message,
-            type: 'warning',
-          })
+          updateOperate.value.splice(index, 1)
+        } else {
+          const ElMessage = ElComponents.get("ElMessage")
+          ElMessage.warning(invalidFields[prop][0].message)
         }
 
       })
@@ -56,13 +54,14 @@ export default defineComponent({
      * 验证icon
      */
     const verifyIcon = () => {
-      if(errorField.value.includes(prop)){
+      const ElTooltip = ElComponents.get("ElTooltip")
+      if (errorField.value.includes(prop)) {
         let error = ''
         for (const errors of errorFieldValues.value) {
-           let find = errors.find((res: FieldError)=> res.field === prop);
-           if(find){
-             error = find.message
-           }
+          let find = errors.find((res: FieldError) => res.field === prop);
+          if (find) {
+            error = find.message
+          }
         }
         return <ElTooltip content={error}>
           <div class="edit-table-column-verify">
@@ -79,7 +78,7 @@ export default defineComponent({
       onTrigger: (el: any) => cancel(el)
     }
     const render = () => {
-      if(dataForm.tableData && dataForm.tableData.length > props.row.$index+1){
+      if (dataForm.tableData && dataForm.tableData.length > props.row.$index + 1) {
         updateOperate.value = dataForm.tableData[props.row.$index][props.updateOperate!]
       }
       if (updateOperate.value.includes(property)) {
@@ -88,9 +87,9 @@ export default defineComponent({
         </OnClickOutside>
       }
       return <div class="edit-table-column" onClick={() => editField()}>
-         <div class="edit-table-column-value" style={{height: props.cellHeight}}>
-           <span>{props.modelValue}</span>
-         </div >
+        <div class="edit-table-column-value" style={{height: props.cellHeight}}>
+          <span>{props.modelValue}</span>
+        </div>
         {verifyIcon()}
       </div>
     }
