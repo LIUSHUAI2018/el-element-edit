@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "el-element-edit": "workspace:1.0.6"
+    "el-element-edit": "workspace:1.0.7"
   }
 }

@@ -1,15 +1,16 @@
 <script lang="tsx">
 import {ElDatePicker} from "element-plus";
-import {defineComponent, getCurrentInstance, nextTick, ref, watch} from "vue";
+import {defineComponent, getCurrentInstance, inject, nextTick, ref, watch} from "vue";
 import Controller from "./Controller.vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
-import {dataForm, setTableRowUpdate} from "./hooks/TableDataHook";
+import useTableHooks from "./hooks/TableDataHook";
 
 
 export default defineComponent({
   name: 'TableDate',
   props: componentProps,
   setup(props: ComponentProps, {emit}) {
+    const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const { proxy }  = getCurrentInstance() as any;
     //显示字段值
     const value = ref<number | string>(props.modelValue)

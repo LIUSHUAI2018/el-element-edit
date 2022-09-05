@@ -23,8 +23,8 @@
     "@vitejs/plugin-vue-jsx": "^2.0.0",
     "@vueuse/components": "^9.1.1",
     "@vueuse/core": "^9.1.1",
-    "el-element-edit": "workspace:1.0.6",
-    "element-plus": "^2.2.15",
+    "el-element-edit": "workspace:1.0.7",
+    "element-plus": "^2.2.16",
     "vue": "3.2.37"
   }
 }

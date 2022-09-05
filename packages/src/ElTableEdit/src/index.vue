@@ -1,25 +1,17 @@
 <script lang="tsx">
-import {defineComponent} from 'vue'
+import {defineComponent, provide} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn, ElTable, ElMessage} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
-import {
-  dataInit,
-  formRef,
-  dataForm,
-  errorField,
-  errorFieldValues,
-  setTableField,
-  addAll,
-  add, remove, setTableRowUpdate
-} from './hooks/TableDataHook'
+import useTableHooks from './hooks/TableDataHook'
 import { Column, TableRow } from "../../../types/TableTypes";
 
 export default defineComponent({
   name: "ElTableEdit",
   props: tableProps,
   setup(props: TableProps, {expose, emit,slots}) {
-
+     const  tableVariable = useTableHooks()
+     provide('tableVariable',tableVariable)
     /**
      * 动态获取组件
      * @param scope
@@ -29,7 +21,7 @@ export default defineComponent({
       let dynamicComponents = componentMap.get(item.component);
       return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
-                                v-model={dataForm.tableData[scope.$index][item.prop]}>
+                                v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}>
 
       </dynamicComponents>
     }
@@ -50,16 +42,16 @@ export default defineComponent({
     }
     const validate = () => {
       return new Promise((resolve) => {
-        formRef.value.validate((isValid: boolean, invalidFields: any) => {
+        tableVariable.formRef.value.validate((isValid: boolean, invalidFields: any) => {
           if (isValid) {
-            errorField.value = [];
-            errorFieldValues.value = []
+            tableVariable.errorField.value = [];
+            tableVariable.errorFieldValues.value = []
             resolve(200);
           } else {
             let errorKeys = Object.keys(invalidFields) as string[];
             let errorValues = Object.values(invalidFields) as any;
-            errorField.value = errorKeys;
-            errorFieldValues.value = errorValues
+            tableVariable.errorField.value = errorKeys;
+            tableVariable.errorFieldValues.value = errorValues
             ElMessage({
               message: errorValues[0][0].message,
               type: 'warning'
@@ -68,16 +60,16 @@ export default defineComponent({
         });
       });
     }
-    expose({validate,setTableField,addAll,add,remove,setTableRowUpdate})
+    expose({validate,setTableField: tableVariable.setTableField,addAll: tableVariable.addAll,add: tableVariable.add,remove: tableVariable.remove,setTableRowUpdate:tableVariable.setTableRowUpdate})
     /**
      * 渲染组件
      */
     const render = () => {
 
       //数据初始化
-      dataInit(props, emit)
-      return (<ElForm class="el-edit-table" ref={formRef} showMessage={false} model={dataForm}>
-        <ElTable {...props.tableAttr} data={dataForm.tableData}>
+      tableVariable.dataInit(props, emit)
+      return (<ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
+        <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
           {props.columns?.map((item: Column) => {
             let items = {
               type: item.type,

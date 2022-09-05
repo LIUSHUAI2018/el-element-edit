@@ -8,7 +8,7 @@
 
 ## 可编辑表格
 
-目前只有`Input` `Select` `Switch`
+目前只有`Input` `Select` `Switch` `InputNumber` `Date`
 
 
 

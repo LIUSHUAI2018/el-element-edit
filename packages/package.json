@@ -1,6 +1,6 @@
 {
   "name": "el-element-edit",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "main": "lib/packages/index.js",
   "module":"es/packages/index.js",
   "scripts": {
