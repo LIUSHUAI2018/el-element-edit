@@ -1,10 +1,11 @@
 <script lang="tsx">
 import {defineComponent, provide} from 'vue'
-import {ElForm, ElFormItem, ElTableColumn, ElTable, ElMessage} from "element-plus";
+import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
 import useTableHooks from './hooks/TableDataHook'
 import {Column, TableRow} from "../../../types/TableTypes";
+import ElComponents from "/#/install";
 
 export default defineComponent({
   name: "ElTableEdit",
@@ -52,6 +53,7 @@ export default defineComponent({
             let errorValues = Object.values(invalidFields) as any;
             tableVariable.errorField.value = errorKeys;
             tableVariable.errorFieldValues.value = errorValues
+            const ElMessage = ElComponents.get("ElMessage")
             ElMessage({
               message: errorValues[0][0].message,
               type: 'warning'
@@ -72,7 +74,7 @@ export default defineComponent({
      * 渲染组件
      */
     const render = () => {
-
+      const ElTable = ElComponents.get("ElTable")
       //数据初始化
       tableVariable.dataInit(props, emit)
       return (

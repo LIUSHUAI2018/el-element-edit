@@ -40,7 +40,8 @@ export default defineComponent({
         //如果没有设置默认值则默认开启
         value.value = props.componentAttr!.activeValue
       }
-      return <div>
+      let classObject = `table-switch table-switch-${props.column?.align}`
+      return <div class={classObject} >
         <ElSwitch  {...props.componentAttr} onChange={(val: number | string | boolean) => onChange(val)}
                    v-model={value.value}></ElSwitch>
       </div>
@@ -50,5 +51,18 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
+.table-switch{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.table-switch-center{
+  justify-content: center;
+}
+.table-switch-left{
+  justify-content: flex-start;
+}
+.table-switch-right{
+  justify-content: flex-end;
+}
 </style>
