@@ -2,12 +2,12 @@
   <div style="width: 700px">
     <el-button type="primary" @click="open">打开弹窗</el-button>
     <el-dialog v-model="isShow">
-      <el-table-edit ref="tableRef" v-model="data" :columns="columns" >
+      <el-table-edit ref="tableRef" v-model="data" :columns="columns">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
       </el-table-edit>
-      <el-table-edit ref="table2Ref" v-model="data1" :columns="columns1" >
+      <el-table-edit ref="table2Ref" v-model="data1" :columns="columns1">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {Column} from "el-element-edit/types/TableTypes";
+
 const isShow = ref(false)
 const tableRef = ref()
 const options = ref([])
@@ -54,13 +55,13 @@ const open = () => {
 const a = () => {
   console.log(data)
 }
-const a1 = () =>[
+const a1 = () => [
   console.log(data1)
 ]
 const c = () => {
   tableRef.value.validate()
 }
-const b = () =>{
+const b = () => {
   options.value = [
     {
       label: '男',
@@ -79,6 +80,10 @@ const b = () =>{
 
 const columns: Column[] = [
   {
+    label: '序号',
+    type: 'index'
+  },
+  {
     label: '姓名',
     prop: 'name',
     component: "Input",
@@ -135,7 +140,7 @@ const columns: Column[] = [
     headerAlign: 'center'
   }
 ];
-const  columns1 = [
+const columns1 = [
   {
     label: '姓名',
     prop: 'name',
@@ -193,8 +198,8 @@ const  columns1 = [
     headerAlign: 'center'
   }
 ];
-onMounted(()=>{
-  let timer = setTimeout(()=>{
+onMounted(() => {
+  let timer = setTimeout(() => {
     options.value = [
       {
         label: '男',

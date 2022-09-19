@@ -46,7 +46,7 @@ import {FormItemRule} from "element-plus";
 
 export type Column =  {
     label: string,
-    prop: string,
+    prop?: string,
     onChange?: Function,
     type?: 'selection' |'index'|'expand',
     index?: Function | number,

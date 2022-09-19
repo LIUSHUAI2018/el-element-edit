@@ -81,9 +81,18 @@ export default defineComponent({
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
               {props.columns?.map((item: Column) => {
+                if(item.type){
+                  let  items = {
+                    minWidth: item.minWidth,
+                    align: item.align,
+                    width: item.width,
+                    headerAlign: item.renderHeader
+                  }
+                  return <ElTableColumn type={item.type} label={item.label}>
+                  </ElTableColumn>
+                }
                 let items = {
                   type: item.type,
-                  index: item.index,
                   columnKey: item.columnKey,
                   minWidth: item.minWidth,
                   fixed: item.fixed,
@@ -92,7 +101,7 @@ export default defineComponent({
                   width: item.width,
                   headerAlign: item.renderHeader
                 } as any
-                return <ElTableColumn {...items} prop={item.prop} label={item.label}>
+                return <ElTableColumn {...items} label={item.label}>
                   {{
                     default: (scope: TableRow) => {
                       if (item.custom) {
