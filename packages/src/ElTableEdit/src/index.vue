@@ -1,5 +1,5 @@
 <script lang="tsx">
-import {defineComponent, provide} from 'vue'
+import {defineComponent, provide, withModifiers} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
@@ -19,10 +19,15 @@ export default defineComponent({
      * @param item
      */
     const getComponent = (scope: TableRow, item: Column) => {
+      if (!item.prop) {
+        console.warn('prop不能为空');
+        return <div></div>
+      }
       let dynamicComponents = componentMap.get(item.component);
       return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
-                                v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}>
+                                v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}
+      >
 
       </dynamicComponents>
     }
@@ -81,14 +86,14 @@ export default defineComponent({
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
               {props.columns?.map((item: Column) => {
-                if(item.type){
-                  let  items = {
+                if (item.type) {
+                  let items = {
                     minWidth: item.minWidth,
                     align: item.align,
                     width: item.width,
                     headerAlign: item.renderHeader
-                  }
-                  return <ElTableColumn type={item.type} label={item.label}>
+                  } as any
+                  return <ElTableColumn  {...items} type={item.type} label={item.label}>
                   </ElTableColumn>
                 }
                 let items = {
@@ -101,7 +106,7 @@ export default defineComponent({
                   width: item.width,
                   headerAlign: item.renderHeader
                 } as any
-                return <ElTableColumn {...items} label={item.label}>
+                return <ElTableColumn {...items} prop={item.prop} label={item.label}>
                   {{
                     default: (scope: TableRow) => {
                       if (item.custom) {

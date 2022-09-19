@@ -2,12 +2,12 @@
   <div style="width: 700px">
     <el-button type="primary" @click="open">打开弹窗</el-button>
     <el-dialog v-model="isShow">
-      <el-table-edit ref="tableRef" v-model="data" :columns="columns">
+      <el-table-edit @submit.native.prevent ref="tableRef" v-model="data" :columns="columns">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
       </el-table-edit>
-      <el-table-edit ref="table2Ref" v-model="data1" :columns="columns1">
+      <el-table-edit @submit.native.prevent ref="table2Ref" v-model="data1" :columns="columns1">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
@@ -33,7 +33,7 @@ const tableRef = ref()
 const options = ref([])
 const data = ref([
   {
-    name: '',
+    name: 11,
     age: 0,
     sex: "1",
     birthday: '2020-01-01',
@@ -42,7 +42,7 @@ const data = ref([
 ])
 const data1 = ref([
   {
-    name: '',
+    name: 11,
     age: 0,
     sex: "1",
     birthday: '2020-01-01',
@@ -81,11 +81,14 @@ const b = () => {
 const columns: Column[] = [
   {
     label: '序号',
-    type: 'index'
+    type: 'index',
+    width: '200'
   },
   {
     label: '姓名',
     prop: 'name',
+    width: '300',
+    modifier: ['number'],
     component: "Input",
     rules: [
       {required: true, message: '请输入名称', trigger: 'blur'},

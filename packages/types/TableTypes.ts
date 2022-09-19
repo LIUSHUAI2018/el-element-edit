@@ -62,7 +62,7 @@ export type Column =  {
     itemAttr?: ItemAttr,
     editFlag?: string,
     custom?: string,
-    modifier?: 'number',
+    modifier?: string[],
     instance?: Comment,
     isEdit?: boolean,
     rules?: FormItemRule[],
