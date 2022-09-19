@@ -1,10 +1,11 @@
 <script lang="tsx">
-import {defineComponent, provide} from 'vue'
-import {ElForm, ElFormItem, ElTableColumn, ElTable, ElMessage} from "element-plus";
+import {defineComponent, provide, withModifiers} from 'vue'
+import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
 import useTableHooks from './hooks/TableDataHook'
 import {Column, TableRow} from "../../../types/TableTypes";
+import ElComponents from "/#/install";
 
 export default defineComponent({
   name: "ElTableEdit",
@@ -18,10 +19,15 @@ export default defineComponent({
      * @param item
      */
     const getComponent = (scope: TableRow, item: Column) => {
+      if (!item.prop) {
+        console.warn('prop不能为空');
+        return <div></div>
+      }
       let dynamicComponents = componentMap.get(item.component);
       return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
-                                v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}>
+                                v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}
+      >
 
       </dynamicComponents>
     }
@@ -52,6 +58,7 @@ export default defineComponent({
             let errorValues = Object.values(invalidFields) as any;
             tableVariable.errorField.value = errorKeys;
             tableVariable.errorFieldValues.value = errorValues
+            const ElMessage = ElComponents.get("ElMessage")
             ElMessage({
               message: errorValues[0][0].message,
               type: 'warning'
@@ -72,16 +79,25 @@ export default defineComponent({
      * 渲染组件
      */
     const render = () => {
-
+      const ElTable = ElComponents.get("ElTable")
       //数据初始化
       tableVariable.dataInit(props, emit)
       return (
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
               {props.columns?.map((item: Column) => {
+                if (item.type) {
+                  let items = {
+                    minWidth: item.minWidth,
+                    align: item.align,
+                    width: item.width,
+                    headerAlign: item.renderHeader
+                  } as any
+                  return <ElTableColumn  {...items} type={item.type} label={item.label}>
+                  </ElTableColumn>
+                }
                 let items = {
                   type: item.type,
-                  index: item.index,
                   columnKey: item.columnKey,
                   minWidth: item.minWidth,
                   fixed: item.fixed,

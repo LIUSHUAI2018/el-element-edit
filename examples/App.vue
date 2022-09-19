@@ -2,12 +2,12 @@
   <div style="width: 700px">
     <el-button type="primary" @click="open">打开弹窗</el-button>
     <el-dialog v-model="isShow">
-      <el-table-edit ref="tableRef" v-model="data" :columns="columns" >
+      <el-table-edit @submit.native.prevent ref="tableRef" v-model="data" :columns="columns">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
       </el-table-edit>
-      <el-table-edit ref="table2Ref" v-model="data1" :columns="columns1" >
+      <el-table-edit @submit.native.prevent ref="table2Ref" v-model="data1" :columns="columns1">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
@@ -27,12 +27,13 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {Column} from "el-element-edit/types/TableTypes";
+
 const isShow = ref(false)
 const tableRef = ref()
 const options = ref([])
 const data = ref([
   {
-    name: '',
+    name: 11,
     age: 0,
     sex: "1",
     birthday: '2020-01-01',
@@ -41,7 +42,7 @@ const data = ref([
 ])
 const data1 = ref([
   {
-    name: '',
+    name: 11,
     age: 0,
     sex: "1",
     birthday: '2020-01-01',
@@ -54,13 +55,13 @@ const open = () => {
 const a = () => {
   console.log(data)
 }
-const a1 = () =>[
+const a1 = () => [
   console.log(data1)
 ]
 const c = () => {
   tableRef.value.validate()
 }
-const b = () =>{
+const b = () => {
   options.value = [
     {
       label: '男',
@@ -79,6 +80,71 @@ const b = () =>{
 
 const columns: Column[] = [
   {
+    label: '序号',
+    type: 'index',
+    width: '200'
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    width: '300',
+    modifier: ['number'],
+    component: "Input",
+    rules: [
+      {required: true, message: '请输入名称', trigger: 'blur'},
+      {min: 3, max: 60, message: '长度为3到60', trigger: 'blur'},
+    ]
+  },
+  {
+    label: '性别',
+    prop: 'sex',
+    component: 'Select',
+    rules: [
+      {required: true, message: '性别不能为空', trigger: 'blur'},
+    ],
+    componentAttr: {
+      options: options
+    }
+  },
+  {
+    label: '年龄',
+    prop: 'age',
+    width: "200",
+    component: 'InputNumber',
+    rules: [
+      {required: true, message: '年龄不能为空', trigger: 'blur'},
+    ],
+    componentAttr: {}
+  },
+  {
+    label: '出生日期',
+    prop: 'birthday',
+    width: "200",
+    component: 'Date',
+    rules: [
+      {required: true, message: '出生日期不能为空', trigger: 'blur'},
+    ],
+    componentAttr: {
+      valueFormat: 'YYYY-MM-DD'
+    }
+  },
+  {
+    label: '是否启用',
+    prop: 'isEnable',
+    component: 'Switch',
+    rules: [
+      {required: true, message: '性别不能为空', trigger: 'blur'},
+    ]
+  },
+  {
+    label: '操作',
+    custom: 'operate',
+    align: 'center',
+    headerAlign: 'center'
+  }
+];
+const columns1 = [
+  {
     label: '姓名',
     prop: 'name',
     component: "Input",
@@ -135,66 +201,8 @@ const columns: Column[] = [
     headerAlign: 'center'
   }
 ];
-const  columns1 = [
-  {
-    label: '姓名',
-    prop: 'name',
-    component: "Input",
-    rules: [
-      {required: true, message: '请输入名称', trigger: 'blur'},
-      {min: 3, max: 60, message: '长度为3到60', trigger: 'blur'},
-    ]
-  },
-  {
-    label: '性别',
-    prop: 'sex',
-    component: 'Select',
-    rules: [
-      {required: true, message: '性别不能为空', trigger: 'blur'},
-    ],
-    componentAttr: {
-      options: options
-    }
-  },
-  {
-    label: '年龄',
-    prop: 'age',
-    width: "200",
-    component: 'InputNumber',
-    rules: [
-      {required: true, message: '年龄不能为空', trigger: 'blur'},
-    ],
-    componentAttr: {}
-  },
-  {
-    label: '出生日期',
-    prop: 'birthday',
-    width: "200",
-    component: 'Date',
-    rules: [
-      {required: true, message: '出生日期不能为空', trigger: 'blur'},
-    ],
-    componentAttr: {
-      valueFormat: 'YYYY-MM-DD'
-    }
-  },
-  {
-    label: '是否启用',
-    prop: 'isEnable',
-    component: 'Switch',
-    rules: [
-      {required: true, message: '性别不能为空', trigger: 'blur'},
-    ]
-  },
-  {
-    label: '操作',
-    custom: 'operate',
-    align: 'center',
-    headerAlign: 'center'
-  }
-];
-onMounted(()=>{
-  let timer = setTimeout(()=>{
+onMounted(() => {
+  let timer = setTimeout(() => {
     options.value = [
       {
         label: '男',

@@ -46,7 +46,7 @@ import {FormItemRule} from "element-plus";
 
 export type Column =  {
     label: string,
-    prop: string,
+    prop?: string,
     onChange?: Function,
     type?: 'selection' |'index'|'expand',
     index?: Function | number,
@@ -62,7 +62,7 @@ export type Column =  {
     itemAttr?: ItemAttr,
     editFlag?: string,
     custom?: string,
-    modifier?: 'number',
+    modifier?: string[],
     instance?: Comment,
     isEdit?: boolean,
     rules?: FormItemRule[],

@@ -41,11 +41,15 @@ export default defineComponent({
       }
     }
     return () => {
+      let modifier:string[] = []
+      if(props.column!.modifier && props.column!.modifier.length > 0){
+        modifier = props.column!.modifier
+      }
       return <Controller onGetFocus={getFocus} cellHeight={props.cellHeight} v-model={value.value}
                          updateOperate={props.updateOperate}
                          column={props.column} row={props.row}>
         <ElInput style="width: 100%" ref={inputRef} {...props.componentAttr}
-                 onChange={(val: number | string) => onChange(val)} v-model={value.value}></ElInput>
+                 onChange={(val: number | string) => onChange(val)} v-model={[value.value,'modelValue',modifier]}></ElInput>
       </Controller>
     }
   }

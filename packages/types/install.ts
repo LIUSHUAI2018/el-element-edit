@@ -8,5 +8,6 @@ export function installElement(element: any) {
     ElComponents.set("ElMessage",element.ElMessage);
     ElComponents.set("ElTooltip",element.ElTooltip)
     ElComponents.set("ElDatePicker",element.ElDatePicker)
+    ElComponents.set("ElTable",element.ElTable)
 }
 export default ElComponents;
