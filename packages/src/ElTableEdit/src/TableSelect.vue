@@ -60,6 +60,7 @@ export default defineComponent({
         console.warn(`${props.column?.label}'options'不能为空`);
         return <div></div>
       }
+
       if (value.value) {
         let obj = options.find((res: any) => res[structure.value] == value.value)
         label.value = obj ? obj[structure.label] : ''
@@ -71,8 +72,11 @@ export default defineComponent({
                   v-model={value.value}>
           {
             options.map((res: any) => {
+              if(props.componentAttr!.toNumber){
+                res[structure.value] = Number.parseInt(res[structure.value])
+              }
               return <ElOption style="width: 100%" key={res[structure.value]} label={res[structure.label]}
-                               value={res[structure.value] + ''}>
+                               value={res[structure.value]}>
               </ElOption>
             })
           }
