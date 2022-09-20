@@ -35,7 +35,7 @@ const data = ref([
   {
     name: 11,
     age: 0,
-    sex: "1",
+    sex: 1,
     birthday: '2020-01-01',
     isEnable: 1
   }
@@ -65,15 +65,15 @@ const b = () => {
   options.value = [
     {
       label: '男',
-      value: 1
+      value: "1"
     },
     {
       label: '女',
-      value: 2
+      value: "2"
     },
     {
       label: '未知',
-      value: 3
+      value: "3"
     }
   ]
 }
@@ -103,7 +103,8 @@ const columns: Column[] = [
       {required: true, message: '性别不能为空', trigger: 'blur'},
     ],
     componentAttr: {
-      options: options
+      options: options,
+      toNumber: true
     }
   },
   {

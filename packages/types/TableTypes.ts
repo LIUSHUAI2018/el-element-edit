@@ -81,7 +81,8 @@ export interface ComponentAttr  {
     activeValue?: string | number,
     inactiveValue?: string | number,
     valueFormat?: string,
-    type?: any
+    type?: any,
+    toNumber?: boolean
 }
 export interface ItemAttr  {}
 export interface TableRow {
