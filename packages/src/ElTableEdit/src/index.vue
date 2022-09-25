@@ -23,7 +23,11 @@ export default defineComponent({
         console.warn('prop不能为空');
         return <div></div>
       }
+      if(!item.component){
+         return <span>tableVariable.dataForm.tableData[scope.$index][item.prop]</span>
+      }
       let dynamicComponents = componentMap.get(item.component);
+
       return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
                                 v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}
@@ -91,6 +95,7 @@ export default defineComponent({
                     minWidth: item.minWidth,
                     align: item.align,
                     width: item.width,
+                    fixed: item.fixed,
                     headerAlign: item.renderHeader
                   } as any
                   return <ElTableColumn  {...items} type={item.type} label={item.label}>

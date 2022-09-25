@@ -12,7 +12,7 @@ export default defineComponent({
     const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const {proxy} = getCurrentInstance() as any;
     //显示字段值
-    const value = ref<number | string>(props.modelValue)
+    const value = ref<number | string | undefined>(props.modelValue)
     //选择对象的dom
     const selectRef = ref()
     watch(
