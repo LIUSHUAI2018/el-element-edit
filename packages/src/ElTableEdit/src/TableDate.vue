@@ -12,7 +12,7 @@ export default defineComponent({
     const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const {proxy} = getCurrentInstance() as any;
     //显示字段值
-    const value = ref<number | string>(props.modelValue)
+    const value = ref<number | string | undefined>(props.modelValue)
     //选择对象的dom
     const selectRef = ref()
     watch(
@@ -50,6 +50,9 @@ export default defineComponent({
       let valueFormat = props.componentAttr!.type === 'datetime' ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD"
       if (props.componentAttr!.valueFormat) {
         valueFormat = props.componentAttr!.valueFormat
+      }
+      if(!value.value){
+        value.value = ''
       }
       return <Controller onGetFocus={getFocus} v-model={value.value} updateOperate={props.updateOperate}
                          column={props.column}

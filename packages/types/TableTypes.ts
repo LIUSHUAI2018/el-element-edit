@@ -66,6 +66,7 @@ export type Column =  {
     instance?: Comment,
     isEdit?: boolean,
     rules?: FormItemRule[],
+    readonly?: boolean
 }
 export interface ComponentAttr  {
     showOverflowTooltip?: boolean,
@@ -83,6 +84,8 @@ export interface ComponentAttr  {
     valueFormat?: string,
     type?: any,
     toNumber?: boolean
+
+
 }
 export interface ItemAttr  {}
 export interface TableRow {

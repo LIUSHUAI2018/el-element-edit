@@ -1,5 +1,5 @@
 <script lang="tsx">
-import {defineComponent, provide, withModifiers} from 'vue'
+import {defineComponent, onMounted, provide, withModifiers} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
@@ -24,6 +24,7 @@ export default defineComponent({
         return <div></div>
       }
       let dynamicComponents = componentMap.get(item.component);
+
       return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
                                 v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}
@@ -67,6 +68,8 @@ export default defineComponent({
         });
       });
     }
+
+    tableVariable.dataInit(props, emit)
     expose({
       validate,
       setTableField: tableVariable.setTableField,
@@ -80,8 +83,7 @@ export default defineComponent({
      */
     const render = () => {
       const ElTable = ElComponents.get("ElTable")
-      //数据初始化
-      tableVariable.dataInit(props, emit)
+
       return (
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
@@ -91,6 +93,7 @@ export default defineComponent({
                     minWidth: item.minWidth,
                     align: item.align,
                     width: item.width,
+                    fixed: item.fixed,
                     headerAlign: item.renderHeader
                   } as any
                   return <ElTableColumn  {...items} type={item.type} label={item.label}>

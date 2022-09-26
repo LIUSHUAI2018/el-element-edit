@@ -2,7 +2,8 @@
   <div style="width: 700px">
     <el-button type="primary" @click="open">打开弹窗</el-button>
     <el-dialog v-model="isShow">
-      <el-table-edit @submit.native.prevent ref="tableRef" v-model="data" :columns="columns">
+      <el-button type="primary" @click="addAll">添加一条数据</el-button>
+      <el-table-edit  @submit.native.prevent ref="tableRef" v-model="data" :columns="columns">
         <template #operate="scope,item">
           <el-button type="danger">删除</el-button>
         </template>
@@ -40,6 +41,15 @@ const data = ref([
     isEnable: 1
   }
 ])
+const addAll = () => {
+  tableRef.value.addAll([ {
+    name: null,
+    age: 0,
+    sex: null,
+    birthday: '2020-01-01',
+    isEnable: 1
+  }])
+}
 const data1 = ref([
   {
     name: 11,

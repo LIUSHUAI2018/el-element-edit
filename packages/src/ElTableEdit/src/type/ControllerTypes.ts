@@ -24,7 +24,7 @@ export const controllerProps = {
     },
     modelValue: {
         type: [String,Number],
-        required: true
+        default: ''
     },
     cellHeight:{
         type: String,

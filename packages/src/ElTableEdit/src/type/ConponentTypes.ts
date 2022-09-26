@@ -16,8 +16,6 @@ export const componentProps = {
     },
     modelValue: {
         type: [String,Number],
-        default: '',
-        required: true
     },
     updateOperate:{
         type: String,
