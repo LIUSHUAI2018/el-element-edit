@@ -51,6 +51,9 @@ export default defineComponent({
       if (props.componentAttr!.valueFormat) {
         valueFormat = props.componentAttr!.valueFormat
       }
+      if(!value.value){
+        value.value = ''
+      }
       return <Controller onGetFocus={getFocus} v-model={value.value} updateOperate={props.updateOperate}
                          column={props.column}
                          row={props.row}>

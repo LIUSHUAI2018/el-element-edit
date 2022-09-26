@@ -47,6 +47,9 @@ export default defineComponent({
      * 设置编辑状态
      */
     const editField = () => {
+      if(props.column?.readonly){
+        return;
+      }
       updateOperate.value.push(property)
       emit("getFocus")
     }

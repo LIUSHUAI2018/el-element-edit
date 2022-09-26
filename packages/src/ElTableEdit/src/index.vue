@@ -1,5 +1,5 @@
 <script lang="tsx">
-import {defineComponent, provide, withModifiers} from 'vue'
+import {defineComponent, onMounted, provide, withModifiers} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
@@ -22,9 +22,6 @@ export default defineComponent({
       if (!item.prop) {
         console.warn('prop不能为空');
         return <div></div>
-      }
-      if(!item.component){
-         return <span>tableVariable.dataForm.tableData[scope.$index][item.prop]</span>
       }
       let dynamicComponents = componentMap.get(item.component);
 
@@ -71,6 +68,8 @@ export default defineComponent({
         });
       });
     }
+
+    tableVariable.dataInit(props, emit)
     expose({
       validate,
       setTableField: tableVariable.setTableField,
@@ -84,8 +83,7 @@ export default defineComponent({
      */
     const render = () => {
       const ElTable = ElComponents.get("ElTable")
-      //数据初始化
-      tableVariable.dataInit(props, emit)
+
       return (
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>
