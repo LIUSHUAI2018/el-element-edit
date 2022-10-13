@@ -1,5 +1,5 @@
 <script lang="tsx">
-import {defineComponent, onMounted, provide, withModifiers} from 'vue'
+import {defineComponent, onMounted, provide, ref, watch, withModifiers} from 'vue'
 import {ElForm, ElFormItem, ElTableColumn} from "element-plus";
 import componentMap from './ComponentMap'
 import {tableProps, TableProps} from "../../../types/TableTypes";
@@ -13,6 +13,7 @@ export default defineComponent({
   setup(props: TableProps, {expose, emit, slots}) {
     const tableVariable = useTableHooks()
     provide('tableVariable', tableVariable)
+
     /**
      * 动态获取组件
      * @param scope
@@ -25,7 +26,7 @@ export default defineComponent({
       }
       let dynamicComponents = componentMap.get(item.component);
 
-      return <dynamicComponents cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
+      return <dynamicComponents  cellHeight={props.cellHeight} updateOperate={props.updateOperate} column={item}
                                 componentAttr={item.componentAttr ? item.componentAttr : {}} row={scope}
                                 v-model={tableVariable.dataForm.tableData[scope.$index][item.prop]}
       >
@@ -76,6 +77,7 @@ export default defineComponent({
       addAll: tableVariable.addAll,
       add: tableVariable.add,
       remove: tableVariable.remove,
+      removeAll: tableVariable.remove,
       setTableRowUpdate: tableVariable.setTableRowUpdate
     })
     /**
@@ -83,7 +85,6 @@ export default defineComponent({
      */
     const render = () => {
       const ElTable = ElComponents.get("ElTable")
-
       return (
           <ElForm class="el-edit-table" ref={tableVariable.formRef} showMessage={false} model={tableVariable.dataForm}>
             <ElTable {...props.tableAttr} data={tableVariable.dataForm.tableData}>

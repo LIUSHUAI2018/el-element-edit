@@ -3,6 +3,7 @@ import {ElInputNumber} from "element-plus";
 import {defineComponent, getCurrentInstance, inject, nextTick, ref, watch} from "vue";
 import Controller from "./Controller.vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
+import {isEqual} from "lodash-es";
 
 
 export default defineComponent({
@@ -12,16 +13,28 @@ export default defineComponent({
     const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const {proxy} = getCurrentInstance() as any;
     //显示字段值
-    const value = ref(props.modelValue)
+    const value = ref()
     //选择对象的dom
     const inputRef = ref()
     watch(
         () => value.value,
         (newValue) => {
+          if(isEqual(newValue,props.modelValue)){
+            return;
+          }
           emit("update:modelValue", newValue)
-        },
-        {deep: true, immediate: true}
+        }
     );
+    watch(()=> props.modelValue,(newValue)=>{
+      if(isEqual(newValue,value.value)){
+        return;
+      }
+      if(newValue){
+        value.value = newValue
+      }else{
+        value.value = ''
+      }
+    },{immediate: true})
     /**
      * 当编辑事件触发时自动获取光标
      */

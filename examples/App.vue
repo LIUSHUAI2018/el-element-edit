@@ -5,7 +5,7 @@
       <el-button type="primary" @click="addAll">添加一条数据</el-button>
       <el-table-edit  @submit.native.prevent ref="tableRef" v-model="data" :columns="columns">
         <template #operate="scope,item">
-          <el-button type="danger">删除</el-button>
+          <el-button @click="del(scope.$index)" type="danger">删除</el-button>
         </template>
       </el-table-edit>
       <el-table-edit @submit.native.prevent ref="table2Ref" v-model="data1" :columns="columns1">
@@ -37,6 +37,20 @@ const data = ref([
     name: 11,
     age: 0,
     sex: 1,
+    birthday: '2020-01-01',
+    isEnable: 1
+  },
+  {
+    name: 22222222,
+    age: 0,
+    sex: "2",
+    birthday: '2020-01-01',
+    isEnable: 1
+  },
+  {
+    name: 1333333333333,
+    age: 0,
+    sex: "1",
     birthday: '2020-01-01',
     isEnable: 1
   }
@@ -87,7 +101,11 @@ const b = () => {
     }
   ]
 }
+const del = (index) => {
+  console.log(index)
+  tableRef.value.removeAll([index])
 
+}
 const columns: Column[] = [
   {
     label: '序号',
