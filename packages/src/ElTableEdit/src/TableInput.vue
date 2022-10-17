@@ -3,6 +3,7 @@ import {ElInput} from "element-plus";
 import {defineComponent, getCurrentInstance, inject, nextTick, ref, watch} from "vue";
 import Controller from "./Controller.vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
+import {isEqual} from "lodash-es";
 
 
 export default defineComponent({
@@ -11,15 +12,27 @@ export default defineComponent({
   setup(props: ComponentProps, {emit}) {
     const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
     const {proxy} = getCurrentInstance() as any;
-    const value = ref(props.modelValue)
+    const value = ref()
     const inputRef = ref()
     watch(
         () => value.value,
         (newValue) => {
+          if(isEqual(newValue,props.modelValue)){
+            return;
+          }
           emit("update:modelValue", newValue)
-        },
-        {deep: true, immediate: true}
+        }
     );
+    watch(()=> props.modelValue,(newValue)=>{
+      if(isEqual(newValue,value.value)){
+        return;
+      }
+      if(newValue){
+        value.value = newValue
+      }else{
+        value.value = ''
+      }
+    },{immediate: true})
     /**
      * 让文本框获取焦点
      */
@@ -45,6 +58,7 @@ export default defineComponent({
       if(props.column!.modifier && props.column!.modifier.length > 0){
         modifier = props.column!.modifier
       }
+
       return <Controller onGetFocus={getFocus} cellHeight={props.cellHeight} v-model={value.value}
                          updateOperate={props.updateOperate}
                          column={props.column} row={props.row}>

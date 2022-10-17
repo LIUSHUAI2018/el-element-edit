@@ -15,7 +15,7 @@ export const componentProps = {
         required: true
     },
     modelValue: {
-        type: [String,Number],
+        type: [String,Number,Array],
     },
     updateOperate:{
         type: String,

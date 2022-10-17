@@ -2,21 +2,34 @@
 import {ElSwitch} from "element-plus";
 import {defineComponent, getCurrentInstance, inject, ref, watch} from "vue";
 import {componentProps, ComponentProps} from "./type/ConponentTypes";
+import {isEqual} from "lodash-es";
 
 export default defineComponent({
   name: 'TableSwitch',
   props: componentProps,
   setup(props: ComponentProps, {emit}) {
     const {dataForm, setTableRowUpdate} = inject('tableVariable') as any
-    const value = ref(props.modelValue)
+    const value = ref()
     const {proxy} = getCurrentInstance() as any;
     watch(
         () => value.value,
         (newValue) => {
+          if(isEqual(newValue,props.modelValue)){
+            return;
+          }
           emit("update:modelValue", newValue)
-        },
-        {deep: true, immediate: true}
+        }
     );
+    watch(()=> props.modelValue,(newValue)=>{
+      if(isEqual(newValue,value.value)){
+        return;
+      }
+      if(newValue){
+        value.value = newValue
+      }else{
+        value.value = ''
+      }
+    },{immediate: true})
     /**
      * 开关改变时的回调函数
      * @param val

@@ -85,7 +85,7 @@ export default defineComponent({
         updateOperate.value = dataForm.tableData[props.row.$index][props.updateOperate!]
       }
       if (updateOperate.value.includes(property)) {
-        return <OnClickOutside {...attr}>
+        return <OnClickOutside style={{width: '100%'}} {...attr}>
           {slots.default?.()}
         </OnClickOutside>
       }

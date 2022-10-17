@@ -56,17 +56,19 @@ export type Column =  {
     renderHeader?: Function,
     align?: 'center' | 'left' | 'right',
     headerAlign?: 'center' | 'left' | 'right',
-    component?: 'Input' | 'Select' | 'Switch' | 'InputNumber' | "Date",
+    component?: 'Input' | 'Select' | 'Switch' | 'InputNumber' | "Date" | "SelectTree",
     width?: string | number,
     componentAttr?: ComponentAttr,
     itemAttr?: ItemAttr,
     editFlag?: string,
     custom?: string,
+    treeCustom?: string,
     modifier?: string[],
     instance?: Comment,
     isEdit?: boolean,
     rules?: FormItemRule[],
-    readonly?: boolean
+    readonly?: boolean,
+    checkStrictly?: boolean
 }
 export interface ComponentAttr  {
     showOverflowTooltip?: boolean,
